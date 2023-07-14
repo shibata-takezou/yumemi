@@ -76,7 +76,6 @@ struct ResView: View {
                     Text("Citizen Day: \(citizenDay.month)/\(citizenDay.day)")
                 }
                 Text("Has Coast Line: \(String(responseData.has_coast_line))")
-                Text("Logo URL: \(responseData.logo_url)")
             } else {
                 Text("Loading...")
             }
@@ -87,6 +86,15 @@ struct ResView: View {
                 self.responseData = response
             }
         }
+        .background(
+            AsyncImage(url: URL(string:responseData?.logo_url ?? "0")) {
+                image in image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 240, height: 126)
+            .opacity(0.5)
+        )
     }
 }
 
