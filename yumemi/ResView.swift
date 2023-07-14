@@ -69,15 +69,28 @@ struct ResView: View {
         
         VStack {
             if let responseData = responseData {
-                Text("Name: \(responseData.name)")
-                Text("Brief: \(responseData.brief)")
-                Text("Capital: \(responseData.capital)")
+                Text("\(responseData.name) ・ \(responseData.capital)")
+                    .font(.title)
                 if let citizenDay = responseData.citizen_day {
-                    Text("Citizen Day: \(citizenDay.month)/\(citizenDay.day)")
+                    Text("県民の日: \(citizenDay.month)/\(citizenDay.day)")
+                        .font(.headline)
+                        .padding()
                 }
-                Text("Has Coast Line: \(String(responseData.has_coast_line))")
-            } else {
-                Text("Loading...")
+                VStack{
+                    Text("\(responseData.brief)")
+                }
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.red, lineWidth: 3)
+                )
+                .padding()
+                if responseData.has_coast_line{
+                    Text("\(responseData.name)は海岸に接しています。")
+                }
+                else{
+                    Text("\(responseData.name)は海岸に接していません。")
+                }
             }
         }
         .onAppear {
@@ -92,7 +105,7 @@ struct ResView: View {
             } placeholder: {
                 ProgressView()
             }
-            .frame(width: 240, height: 126)
+            .scaledToFill()
             .opacity(0.5)
         )
     }
